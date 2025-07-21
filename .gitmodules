@@ -1,0 +1,3 @@
+[submodule "gm-sky-api"]
+	path = gm-sky-api
+	url = https://github.com/Tawan151766/gm-sky-api.git
