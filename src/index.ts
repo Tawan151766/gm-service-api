@@ -35,8 +35,7 @@ app.use(
 
 app.use(
   cors({
-    // origin: ['http://localhost:3001', 'http://127.0.0.1:3001'],
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -56,14 +55,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Handle preflight requests
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
-});
-
+// app.options("*", (req, res) => {
+//   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   res.sendStatus(200);
+// });
+// app.options("*", cors()); 
 // Swagger Documentation
 app.use(
   "/api-docs",
@@ -102,14 +101,14 @@ app.use(errorHandler);
 AppDataSource.initialize()
   .then(async () => {
     logger.info("Database connected successfully");
-    
+
     // Create test user for authentication
     try {
       await createTestUser();
     } catch (error) {
       logger.warn("Could not create test user:", error);
     }
-    
+
     app.listen(PORT, () => {
       logger.info(`Server is running on port http://localhost:${PORT}`);
       logger.info(`Swagger UI available at: http://localhost:${PORT}/api-docs`);
