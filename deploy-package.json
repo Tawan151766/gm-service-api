@@ -1,0 +1,29 @@
+{
+  "name": "gm-service-api-production",
+  "version": "1.0.0",
+  "description": "GM Service API - Production Build",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "migration:run": "node -r ts-node/register ./node_modules/typeorm/cli.js migration:run -d dist/config/database.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "typeorm": "^0.3.17",
+    "mysql2": "^3.6.0",
+    "class-validator": "^0.14.0",
+    "class-transformer": "^0.5.1",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "helmet": "^7.0.0",
+    "express-rate-limit": "^6.10.0",
+    "winston": "^3.10.0",
+    "cors": "^2.8.5",
+    "reflect-metadata": "^0.1.13"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

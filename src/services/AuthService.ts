@@ -14,7 +14,7 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<{ user: any; token: string }> {
     const user = await this.userService.findByEmail(loginDto.email);
 
-    if (!user || !user.isActive) {
+    if (!user) {
       throw new AppError('Invalid credentials', 401);
     }
 

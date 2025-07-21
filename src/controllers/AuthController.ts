@@ -1,27 +1,44 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { AuthService } from '../services/AuthService';
 import { LoginDto } from '../dto/LoginDto';
-import { validateDto } from '../utils/validation';
+import { validate } from 'class-validator';
+import { AppError } from '../utils/AppError';
 
 export class AuthController {
-  private authService: AuthService;
+  private authService = new AuthService();
 
-  constructor() {
-    this.authService = new AuthService();
-  }
+  /**
+   * @swagger
+   * components:
+   *   schemas:
+   *     LoginDto:
+   *       type: object
+   *       required:
+   *         - email
+   *         - password
+   *       properties:
+   *         email:
+   *           type: string
+   *           format: email
+   *           example: "admin@example.com"
+   *         password:
+   *           type: string
+   *           example: "password123"
+   */
+  async login(req: Request, res: Response): Promise<void> {
+    const dto = Object.assign(new LoginDto(), req.body);
+    const errors = await validate(dto);
 
-  login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const loginDto = await validateDto(LoginDto, req.body);
-      const result = await this.authService.login(loginDto);
-      
-      res.json({
-        success: true,
-        data: result,
-        message: 'Login successful'
-      });
-    } catch (error) {
-      next(error);
+    if (errors.length > 0) {
+      throw new AppError('Validation failed', 400, errors);
     }
-  };
+
+    const result = await this.authService.login(dto);
+    
+    res.json({
+      success: true,
+      data: result,
+      message: 'Login successful'
+    });
+  }
 }
