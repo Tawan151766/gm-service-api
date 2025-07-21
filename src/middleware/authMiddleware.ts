@@ -13,20 +13,29 @@ export const authenticateToken = async (
 ): Promise<void> => {
   try {
     const authHeader = req.headers.authorization;
+    console.log('Auth Header:', authHeader); // Debug log
+    
     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+    console.log('Extracted Token:', token ? 'Token exists' : 'No token'); // Debug log
 
     if (!token) {
-      throw new AppError('Access token required', 401);
+      res.status(401).json({
+        success: false,
+        message: 'Access token required'
+      });
+      return;
     }
 
     const authService = new AuthService();
     const decoded = authService.verifyToken(token);
+    console.log('Token decoded successfully'); // Debug log
     
     // You can add user lookup here if needed
     req.user = decoded;
     
     next();
   } catch (error) {
+    console.log('Auth Error:', error); // Debug log
     if (error instanceof AppError) {
       res.status(error.statusCode).json({
         success: false,

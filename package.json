@@ -14,7 +14,9 @@
     "migration:run": "npm run typeorm migration:run -- -d src/config/database.ts",
     "migration:generate": "npm run typeorm migration:generate -- -d src/config/database.ts",
     "migration:revert": "npm run typeorm migration:revert -- -d src/config/database.ts",
-    "deploy:build": "node build-for-deploy.js"
+    "deploy:build": "node build-for-deploy.js",
+    "seed": "ts-node src/seeds/runSeeds.ts",
+    "seed:user": "ts-node -e \"import('./src/seeds/createTestUser').then(m => m.createTestUser())\""
   },
   "dependencies": {
     "@types/swagger-jsdoc": "^6.0.4",
