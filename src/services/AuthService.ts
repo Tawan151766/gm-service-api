@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { UserService } from './UserService';
 import { LoginDto } from '../dto/LoginDto';
@@ -35,11 +35,17 @@ export class AuthService {
   }
 
   private generateToken(userId: number): string {
-    return jwt.sign(
-      { userId },
-      process.env.JWT_SECRET || 'fallback-secret',
-      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
-    );
+    const payload = { userId };
+    const secret: Secret = process.env.JWT_SECRET || 'fallback-secret';
+    let expiresIn: any = '24h';
+    if (process.env.JWT_EXPIRES_IN) {
+      if (/^\d+$/.test(process.env.JWT_EXPIRES_IN)) {
+        expiresIn = Number(process.env.JWT_EXPIRES_IN);
+      } else {
+        expiresIn = process.env.JWT_EXPIRES_IN;
+      }
+    }
+    return jwt.sign(payload, secret, { expiresIn });
   }
 
   verifyToken(token: string): any {
