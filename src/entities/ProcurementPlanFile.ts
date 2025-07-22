@@ -23,7 +23,10 @@ export class ProcurementPlanFile {
   @Column()
   files_type!: string;
 
-  @ManyToOne(() => ProcurementPlanType, (type) => type.files)
+  @ManyToOne(() => ProcurementPlanType, (type) => type.files, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "type_id" })
   type!: ProcurementPlanType;
 

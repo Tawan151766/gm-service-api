@@ -20,7 +20,10 @@ export class PostVideo {
   @Column()
   post_video_file!: string;
 
-  @ManyToOne(() => PostDetail, (postDetail) => postDetail.videos)
+  @ManyToOne(() => PostDetail, (postDetail) => postDetail.videos, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "post_detail_id" })
   postDetail!: PostDetail;
 

@@ -25,7 +25,10 @@ export class PerfResultsSubTopic {
   @Column({ type: "date" })
   date!: Date;
 
-  @ManyToOne(() => PerfResultsSection, (section) => section.subTopics)
+  @ManyToOne(() => PerfResultsSection, (section) => section.subTopics, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "section_id" })
   section!: PerfResultsSection;
 

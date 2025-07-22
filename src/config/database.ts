@@ -25,8 +25,10 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_DATABASE || 'restful_api',
-  synchronize: process.env.NODE_ENV === 'development',
+  synchronize: false,
   logging: process.env.NODE_ENV === 'development',
+  // Disable migrations during build and production
+  migrationsRun: false,
   entities: [
     User,
     LawsRegsType,
@@ -44,6 +46,7 @@ export const AppDataSource = new DataSource({
     ProcurementPlanType,
     ProcurementPlanFile,
   ],
-  migrations: ['src/migrations/*.ts'],
-  subscribers: ['src/subscribers/*.ts'],
+  // Only include migrations in development
+  migrations: process.env.NODE_ENV === 'development' ? ['src/migrations/*.ts'] : [],
+  subscribers: process.env.NODE_ENV === 'development' ? ['src/subscribers/*.ts'] : [],
 });

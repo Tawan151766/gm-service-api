@@ -25,7 +25,10 @@ export class PerfResultsSection {
   @Column({ type: "date" })
   date!: Date;
 
-  @ManyToOne(() => PerfResultsType, (type) => type.sections)
+  @ManyToOne(() => PerfResultsType, (type) => type.sections, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT",
+  })
   @JoinColumn({ name: "type_id" })
   type!: PerfResultsType;
 

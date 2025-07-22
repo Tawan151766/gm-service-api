@@ -23,7 +23,10 @@ export class PostPhoto {
   @Column()
   post_photo_status!: string;
 
-  @ManyToOne(() => PostDetail, (postDetail) => postDetail.photos)
+  @ManyToOne(() => PostDetail, (postDetail) => postDetail.photos, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "post_detail_id" })
   postDetail!: PostDetail;
 

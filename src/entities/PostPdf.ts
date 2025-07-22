@@ -20,7 +20,10 @@ export class PostPdf {
   @Column()
   post_pdf_file!: string;
 
-  @ManyToOne(() => PostDetail, (postDetail) => postDetail.pdfs)
+  @ManyToOne(() => PostDetail, (postDetail) => postDetail.pdfs, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "post_detail_id" })
   postDetail!: PostDetail;
 

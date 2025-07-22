@@ -33,7 +33,10 @@ export class PostDetail {
   @Column({ type: "text" })
   details!: string;
 
-  @ManyToOne(() => PostType, (postType) => postType.postDetails)
+  @ManyToOne(() => PostType, (postType) => postType.postDetails, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "post_type_id" })
   postType!: PostType;
 

@@ -23,7 +23,10 @@ export class LawsRegsFiles {
   @Column()
   files_type!: string;
 
-  @ManyToOne(() => LawsRegsSection, (section) => section.files)
+  @ManyToOne(() => LawsRegsSection, (section) => section.files, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "section_id" })
   section!: LawsRegsSection;
 

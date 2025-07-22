@@ -23,7 +23,10 @@ export class PerfResultsFile {
   @Column()
   files_type!: string;
 
-  @ManyToOne(() => PerfResultsSubTopic, (subTopic) => subTopic.files)
+  @ManyToOne(() => PerfResultsSubTopic, (subTopic) => subTopic.files, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "sub_topic_id" })
   subTopic!: PerfResultsSubTopic;
 

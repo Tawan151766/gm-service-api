@@ -22,7 +22,10 @@ export class LawsRegsSection {
   @Column()
   section_name!: string;
 
-  @ManyToOne(() => LawsRegsType, (type) => type.sections)
+  @ManyToOne(() => LawsRegsType, (type) => type.sections, {
+    onDelete: "SET NULL",
+    onUpdate: "RESTRICT"
+  })
   @JoinColumn({ name: "type_id" })
   type!: LawsRegsType;
 
